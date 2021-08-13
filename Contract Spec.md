@@ -1,4 +1,4 @@
-`Voting Events`
+`VotingEvent.sol`
 
 | Function Name | Function Visibility | Function Mutability | Modifiers | Parameters | Action - Notes |
 | --- | --- | --- | --- | --- | --- |
