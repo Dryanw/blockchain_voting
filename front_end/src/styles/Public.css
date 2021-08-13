@@ -1,0 +1,7 @@
+#publicNav {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    padding: 0px;
+    background-color: lightgrey;
+    text-align: center;
+}
