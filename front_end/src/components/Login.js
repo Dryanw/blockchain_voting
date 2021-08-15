@@ -1,48 +1,44 @@
-import React from 'react';
+import axios from 'axios';
+import {ethers} from 'ethers';
+import {React, useState} from 'react';
+import {useWeb3React} from "@web3-react/core";
 
 
-class Login extends React.Component {
-    state = {
-        ethClient: null,
-        warnText: ''
-    }
-
-    getEthConnector(event) {
-        event.preventDefault();
-        console.log('TODO: Connect to eth connector');
-        let result;
-        this.setState({ethClient: {'address': 'test', 'balance': 0}});
-        this.props.receiveEthProvider(result);
-    }
-
-    handlePasswordChange = event => {
-        this.setState({password: event.target.value});
-    }
-
-    render() {
+function Login(props) {
+    const [warnText, setWarnText] = useState('');
+    const {library, account} = useWeb3React();
+    const [pw, setPw] = useState('');
+    if (!library) {
         return (
             <div>
-                <p>Login by connecting your eth provider and entering your password</p>
-                {
-                    (this.state.ethClient)
-                        ?<div>
-                            <p>Address: {this.state.ethClient.address}</p>
-                            <p>Current Balance: {this.state.ethClient.balance}</p>
-                            <button onClick={()=>{this.setState({ethClient: null})}}>Connect to another account</button>
-                        </div>
-                        :<button onClick={this.getEthConnector}>Connect to your eth provider</button>
-                }
-                <form onSubmit={this.props.login}>
+                Please connect your account first
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                <p>Address: {account}</p>
+                <form onSubmit={(event) => {
+                    event.preventDefault();
+                    let hash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(account + pw));
+                    axios.get(`http://localhost:3001/login?address=${account}&hash=${hash}`, {crossDomain: true})
+                        .then(
+                            res => {
+                                (res.data)?props.login():setWarnText('Incorrect login info, please try again');
+                            }
+                        )
+                }}>
                     <label htmlFor="pw">Password: </label>
-                    <input type="text" name='pw'/>
+                    <input type="text" name='pw' onChange={(event) => setPw(event.target.value)}/>
                     <button type='submit'>Submit</button>
                 </form>
                 {
-                    (this.state.warnText)?<p className='warnText'>{this.state.warnText}</p>:<></>
+                    (warnText)?<p className='warnText'>{warnText}</p>:<></>
                 }
             </div>
         )
     }
 }
+
 
 export default Login;

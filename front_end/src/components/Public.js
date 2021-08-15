@@ -20,10 +20,11 @@ class Public extends React.Component {
                     </nav>
 
                     <Switch>
+                        <Redirect exact from="/" to="/home"/>
                         <Route path="/home"><Home/></Route>
                         <Route path="/events"><Events/></Route>
                         <Route path="/login"><Login login={this.props.login}
-                                                    receiveEthProvider={this.props.receiveEthProvider}/></Route>
+                                                    receiveEthProvider={this.props.ethClient}/></Route>
                         <Route path="/register"><Register/></Route>
                         <Redirect from="/logout" to="/home"/>
                     </Switch>

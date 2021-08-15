@@ -1,48 +1,30 @@
-import React from 'react';
+import {React, useState} from 'react';
+import { Web3ReactProvider } from '@web3-react/core';
+import {Web3Provider} from "@ethersproject/providers";
 import Public from './components/Public';
 import LoggedIn from './components/LoggedIn';
+import WalletConnect from './components/WalletConnect';
 import './styles/main.css';
 
 
-class App extends React.Component {
-    state = {
-        loggedIn: false,
-        userId: '',
-        ethProvider: null
-    }
+function getLibrary(provider) {
+    return new Web3Provider(provider);
+}
 
-    constructor(props) {
-        super(props);
-        this.login = this.login.bind(this);
-        this.logout = this.logout.bind(this);
-        this.receiveEthProvider = this.receiveEthProvider.bind(this);
-    }
+function App() {
+    const [loggedIn, setLoggedIn] = useState(false);
 
-    login() {
-        console.log('Logging in');
-        this.setState({loggedIn: true});
-    }
+    return (
+        <Web3ReactProvider getLibrary={getLibrary}>
+            <WalletConnect logout={() => setLoggedIn(false)}/>
+            {
+                (loggedIn)
+                    ?<LoggedIn logout={() => setLoggedIn(false)}/>
+                    :<Public login={() => setLoggedIn(true)}/>
+            }
+        </Web3ReactProvider>
+    )
 
-    logout() {
-        console.log('logging out');
-        this.setState({loggedIn: false});
-    }
-
-    receiveEthProvider(_ethProvider) {
-        console.log('Connected with eth provider');
-        this.setState({ethProvider: _ethProvider});
-    }
-
-    render() {
-        return (
-            <div>
-                {
-                    (this.state.loggedIn)?<LoggedIn logout={this.logout} ethProvider={this.state.ethProvider}/>
-                                         :<Public login={this.login} receiveEthProvider={this.receiveEthProvider}/>
-                }
-            </div>
-        )
-    }
 }
 
 export default App;
