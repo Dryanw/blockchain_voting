@@ -11,7 +11,7 @@ const LoginInfo = require('./model/LoginInfo');
 const Events = require('./model/Event');
 
 // Set up mongodb connection
-const connectionString = 'mongodb+srv://admin:admin@cluster0.twllj.mongodb.net/BlockchainVoting?retryWrites=true&w=majority';
+const connectionString = SCRUBBED_LINK;
 mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true})
         .then (()=> {console.log('Mongoose connected successfully');},
                error => {console.log('Mongoose could not connect to db: ' + error)});
