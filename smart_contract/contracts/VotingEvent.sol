@@ -7,7 +7,6 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract VotingEvent {
   address owner;
   uint256 public prize;
-  string[] public candidates;
   mapping(string => uint) public voteStatus;
   mapping(uint => string) private votes;
   IERC20 token;
@@ -22,11 +21,10 @@ contract VotingEvent {
 
   event ExternalCall(address targetAddress, string functionName, bool success, bytes result);
 
-  constructor(string[] memory _candidates, address _token, uint _prize, uint _numberVotes, bool _allowChange) payable {
+  constructor(address _token, uint _prize, uint _numberVotes, bool _allowChange) payable {
     owner = msg.sender;
     tokenAddress = _token;
     numberVotes = _numberVotes;
-    candidates = _candidates;
     if (_token == address(0)) {
       require(msg.value == (_prize * _numberVotes), 'Wrong amount of ETH given');
     } else {
