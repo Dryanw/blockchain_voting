@@ -36,7 +36,7 @@ function CreateEvent(props) {
                 setDeploying(true);
 
                 // Check if any event with the same name exist already
-                axios.get(`http://localhost:3001/findEvent?name=${eventName}&owner=${account}`, {crossDomain: true})
+                axios.get(SCRUBBED_LINK, {crossDomain: true})
                     .then(
                         res => {
                             if (res.data.success){
@@ -49,7 +49,7 @@ function CreateEvent(props) {
                                     .then((contract) => {
                                         setResult(contract.address);
                                         let dbChoices = choices.map((item)=>item.value).join('|');
-                                        axios.get(`http://localhost:3001/newEvent?name=${eventName}&address=${contract.address}&owner=${account}&choices=${dbChoices}`,
+                                        axios.get(SCRUBBED_LINK,
                                             {crossDomain: true})
                                             .then(res => {
                                                 setDeploying(false);

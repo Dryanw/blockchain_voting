@@ -21,7 +21,7 @@ function Login(props) {
                 <form onSubmit={(event) => {
                     event.preventDefault();
                     let hash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(account + pw));
-                    axios.get(`http://localhost:3001/login?address=${account}&hash=${hash}`, {crossDomain: true})
+                    axios.get(SCRUBBED_LINK, {crossDomain: true})
                         .then(
                             res => {
                                 (res.data)?props.login():setWarnText('Incorrect login info, please try again');
