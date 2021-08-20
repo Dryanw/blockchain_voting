@@ -6,12 +6,15 @@ const http = require('http');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+// Mongo Link
+const MONGO_LINK = require('./mongo_link.js')
+
 // Schemas for login info
 const LoginInfo = require('./model/LoginInfo');
 const Events = require('./model/Event');
 
 // Set up mongodb connection
-const connectionString = 'mongodb+srv://admin:admin@cluster0.twllj.mongodb.net/BlockchainVoting?retryWrites=true&w=majority';
+const connectionString = MONGO_LINK;
 mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true})
         .then (()=> {console.log('Mongoose connected successfully');},
                error => {console.log('Mongoose could not connect to db: ' + error)});
