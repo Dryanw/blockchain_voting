@@ -1,3 +1,7 @@
 .currentTab {
     background-color: lightblue;
 }
+
+.warnText {
+    color: red;
+}

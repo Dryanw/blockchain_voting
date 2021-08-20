@@ -1,6 +1,7 @@
 import '../styles/Public.css';
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route, NavLink, Redirect} from 'react-router-dom';
+import {Grid} from "@material-ui/core";
 import Home from './Home';
 import Events from './Events';
 import Login from './Login';
@@ -23,9 +24,17 @@ class Public extends React.Component {
                         <Redirect exact from="/" to="/home"/>
                         <Route path="/home"><Home/></Route>
                         <Route path="/events"><Events/></Route>
-                        <Route path="/login"><Login login={this.props.login}
-                                                    receiveEthProvider={this.props.ethClient}/></Route>
-                        <Route path="/register"><Register/></Route>
+                        <Route path="/login">
+                            <Grid container justify="center">
+                                <Login login={this.props.login}
+                                       receiveEthProvider={this.props.ethClient}/>
+                            </Grid>
+                        </Route>
+                        <Route path="/register">
+                            <Grid container justify="center">
+                                <Register/>
+                            </Grid>
+                        </Route>
                         <Redirect from="/logout" to="/home"/>
                     </Switch>
                 </Router>
