@@ -11,7 +11,7 @@ const LoginInfo = require('./model/LoginInfo');
 const Events = require('./model/Event');
 
 // Set up mongodb connection
-const connectionString = SCRUBBED_LINK;
+const connectionString = 'mongodb+srv://admin:admin@cluster0.twllj.mongodb.net/BlockchainVoting?retryWrites=true&w=majority';
 mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true})
         .then (()=> {console.log('Mongoose connected successfully');},
                error => {console.log('Mongoose could not connect to db: ' + error)});
@@ -79,9 +79,14 @@ app.get('/findEvent', cors(), function(req, res){
     let params = new URLSearchParams(url.parse(req.url).query);
     let name = params.get('name');
     let owner = params.get('owner');
+    let address = params.get('address');
+    let findCriteria = [];
+    if (name) findCriteria.push({name: name});
+    if (owner) findCriteria.push({owner: owner});
+    if (address) findCriteria.push({address: address});
     console.log(`GET /findEvent: name=${name} owner=${owner}`);
     Events.find(
-        {$and: [{name: name}, {owner: owner}]},
+        {$and: findCriteria},
         (error, documents) => {
             if (error) {
                 console.log('Error occurred on Events.find(): ' + error);
