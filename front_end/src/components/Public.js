@@ -22,20 +22,34 @@ class Public extends React.Component {
 
                     <Switch>
                         <Redirect exact from="/" to="/home"/>
-                        <Route path="/home"><Home/></Route>
+                        <Route path="/home">
+                            <Grid container justifyContent="center">
+                                <Home/>
+                            </Grid>
+                        </Route>
                         <Route path="/events"><Events/></Route>
                         <Route path="/login">
                             <Grid container justify="center">
-                                <Login login={this.props.login}
-                                       receiveEthProvider={this.props.ethClient}/>
+                                <Grid item xs={false} sm={7} id='login-img'>
+                                </Grid>
+                                <Grid item xs={12} sm={5}>
+                                    <Login login={this.props.login}
+                                           receiveEthProvider={this.props.ethClient}/>
+                                </Grid>
                             </Grid>
                         </Route>
                         <Route path="/register">
                             <Grid container justify="center">
-                                <Register/>
+                                <Grid item xs={false} sm={7} id='register-img'>
+                                </Grid>
+                                <Grid item xs={12} sm={5}>
+                                    <Register/>
+                                </Grid>
                             </Grid>
                         </Route>
                         <Redirect from="/logout" to="/home"/>
+                        <Redirect from="/createEvent" to="/home"/>
+                        <Redirect from="/vote" to="/home"/>
                     </Switch>
                 </Router>
             </div>

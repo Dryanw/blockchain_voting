@@ -16,7 +16,7 @@ function Login(props) {
 
     if (!library) {
         return (
-            <div>
+            <div className="login">
                 Please connect your account first
             </div>
         )
@@ -30,7 +30,7 @@ function Login(props) {
                     axios.get(`http://localhost:3001/register?address=${account}&hash=${hash}`, {crossDomain: true})
                         .then(
                             res => {
-                                (res.data.success)?props.login():setWarnText('Incorrect login info, please try again');
+                                (res.data)?props.login():setWarnText('Incorrect login info, please try again');
                             }
                         )
                 }}>

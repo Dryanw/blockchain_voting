@@ -5,6 +5,7 @@ import Events from './Events';
 import CreateEvent from './CreateEvent';
 import Vote from './Vote';
 import '../styles/LoggedIn.css';
+import {Grid} from "@material-ui/core";
 
 
 class LoggedIn extends React.Component {
@@ -22,9 +23,27 @@ class LoggedIn extends React.Component {
 
                     <Switch>
                         <Route path="/events"><Events/></Route>
-                        <Route path="/createEvent"><CreateEvent/></Route>
-                        <Route path="/vote"><Vote/></Route>
-                        <Route path="/home"><Home/></Route>
+                        <Route path="/createEvent">
+                            <Grid container justifyContent="center">
+                                <CreateEvent/>
+                            </Grid>
+                        </Route>
+
+                        <Route path="/vote">
+
+                            <Grid container justifyContent="center">
+                                <Grid item xs={false} sm={7} id='vote-img'>
+                                </Grid>
+                                <Grid item xs={12} sm={5}>
+                                    <Vote/>
+                                </Grid>
+                            </Grid>
+                        </Route>
+                        <Route path="/home">
+                            <Grid container justifyContent="center">
+                                <Home/>
+                            </Grid>
+                        </Route>
                         <Redirect from="/login" to="/home"/>
                     </Switch>
                 </Router>

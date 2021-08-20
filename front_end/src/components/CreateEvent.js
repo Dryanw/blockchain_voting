@@ -3,7 +3,9 @@ import {ethers, ContractFactory} from 'ethers';
 import {React, useState} from 'react';
 import {useWeb3React} from "@web3-react/core";
 import { Button } from "@chakra-ui/react";
-import {ABI, BYTECODE} from '../artifacts/VotingEvent.js'
+import {ABI, BYTECODE} from '../artifacts/VotingEvent.js';
+import {Input, InputLabel, IconButton, InputAdornment, FormControl, FormControlLabel, Checkbox} from "@material-ui/core";
+import "../styles/createEvent.css"
 
 
 function CreateEvent(props) {
@@ -22,8 +24,9 @@ function CreateEvent(props) {
     const [signatures, setSignatures] = useState(null);
 
     return (
-        <div>
-            <form onSubmit={(event)=>{
+        <div className="createEvent">
+            <form className="create-form"
+                onSubmit={(event)=>{
                 async function deployContract(response) {
                     const deployValue = (useToken)?0:signatures.length * prize;
                     const factory = new ContractFactory(ABI, BYTECODE, library.getSigner());
@@ -42,7 +45,9 @@ function CreateEvent(props) {
                 event.preventDefault();
                 setWarnText('');
                 let distinctChoices = [...new Set(choices.map((item) => item.value))];
-                if (distinctChoices.length !== numberChoices){
+                console.log(distinctChoices.length === numberChoices);
+
+                if (distinctChoices.length != numberChoices){
                     setWarnText('There are duplicated choices, please check again');
                     return;
                 }
@@ -56,6 +61,7 @@ function CreateEvent(props) {
                 axios.get(`http://localhost:3001/findEvent?name=${eventName}&owner=${account}`, {crossDomain: true})
                     .then(
                         res => {
+                            console.log(res);
                             if (res.data.success){
                             } else if (res.data.msg === ''){
                                 deployContract(res);
@@ -66,29 +72,50 @@ function CreateEvent(props) {
                         }
                     );
             }}>
-                <label htmlFor="eventName">Event Name: </label>
-                <input required type='text' name='eventName' onChange={(event) => {setEventName(event.target.value)}}/><br/>
-                <label htmlFor="numberChoices">Number of Voting Choices: </label>
-                <input required type="number" name="numberChoices" onChange={(event) => {
-                    setNumberChoices(event.target.value);
-                    let temp = []
-                    for (let i=0; i<event.target.value; i++){
-                        temp.push({id: i, value: ''});
-                    }
-                    setChoices(temp);
-                }}/><br/>
+                <FormControl>
+                    <InputLabel htmlFor="eventName">Event Name</InputLabel>
+                    <Input
+                        required
+                        type="text"
+                        name="eventName"
+                        onChange={(event) => {setEventName(event.target.value)}}
+                    />
+                </FormControl>
+
+                <FormControl>
+                    <InputLabel htmlFor="numberChoice">Number of Voting Choices</InputLabel>
+                    <Input
+                        required
+                        type="number"
+                        name="numberChoice"
+                        onChange={(event) => {
+                                            setNumberChoices(event.target.value);
+                                            let temp = []
+                                            for (let i=0; i<event.target.value; i++){
+                                                temp.push({id: i, value: ''});
+                                            }
+                                            setChoices(temp);
+                                        }}
+                    />
+                </FormControl>
                 {
-                    choices.map(choice => <>
-                        <label htmlFor={'choice' + (choice.id + 1)}>{'Choice ' + (choice.id + 1) + ': '}</label>
-                        <input type='text' name={'choice' + (choice.id + 1)} onChange={(event) => {
-                            setChoices(choices.map((item) => {
-                                if (item.id === choice.id) {
-                                    item.value = event.target.value;
-                                }
-                                return item;
-                            }));
-                        }}/><br/>
-                    </>)
+                    choices.map(choice =>
+                        <FormControl>
+                            <InputLabel htmlFor={"choice" + (choice.id + 1)}>{'Choice ' + (choice.id + 1)}</InputLabel>
+                            <Input
+                                required
+                                type="text"
+                                name={"choice" + (choice.id + 1)}
+                                onChange={(event) => {
+                                    setChoices(choices.map((item) => {
+                                        if (item.id === choice.id) {
+                                            item.value = event.target.value;
+                                        }
+                                        return item;
+                                    }));
+                                }}
+                            />
+                        </FormControl>)
                 }
                 <label htmlFor='voters'>File with all Voters: </label>
                 <input required type='file' onChange={(e) => {
@@ -120,8 +147,15 @@ function CreateEvent(props) {
                     };
                     fileReader.readAsText(e.target.files[0]);
                 }} onClick={e => {e.target.value = null}} /><br/>
-                <label htmlFor="useToken">Use ERC20 Token? </label>
-                <input type='checkbox' name='useToken' onChange={(event) => {setUseToken(!useToken)}}/><br/>
+
+                <FormControlLabel
+                    label="Use ERC20 Token?"
+                    labelPlacement="end"
+                    control={<Checkbox
+                                color="primary"
+                                onChange={(event) => {setUseToken(!useToken)}}
+                             />}
+                />
                 {
                     (useToken)
                         ?<>
@@ -130,11 +164,25 @@ function CreateEvent(props) {
                          </>
                         :<></>
                 }
-                <label htmlFor="allowChange">Allow Change of Vote? </label>
-                <input type='checkbox' name='allowChange' onChange={(event) => {setAllowChange(!allowChange)}}/><br/>
+                <FormControlLabel
+                    label="Allow Change of Vote?"
+                    labelPlacement="end"
+                    control={<Checkbox
+                                color="primary"
+                                onChange={(event) => {setAllowChange(!allowChange)}}
+                             />}
+                />
 
-                <label htmlFor='prize'>Prize: </label>
-                <input required type='number' name='prize' value={0} step={1} onChange={(event) => {setPrize(event.target.value)}}/><br/>
+                <FormControl>
+                    <InputLabel htmlFor="prize">Prize</InputLabel>
+                    <Input
+                        required
+                        type="number"
+                        name="prize"
+                        inputProps={{min: 0, step: 1}}
+                        onChange={(event) => {setPrize(event.target.value)}}
+                    />
+                </FormControl>
                 {
                     (prize === null || signatures === null)
                         ?<></>

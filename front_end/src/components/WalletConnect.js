@@ -21,8 +21,6 @@ function WalletConnect(props) {
         props.logout();
     }, [account])
 
-    console.log(connectedAccount);
-
     if (connectedAccount) {
         return (
             <div>

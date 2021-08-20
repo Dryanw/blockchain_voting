@@ -17,7 +17,7 @@ function Register(props) {
 
     if (!library) {
         return (
-            <div>
+            <div className="register">
                 Please connect your account first
             </div>
         )

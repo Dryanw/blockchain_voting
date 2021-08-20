@@ -38,7 +38,8 @@ function Events(props) {
 
     const columns = [
         {field: 'name', headerName: 'Event Name', flex: 1},
-        {field: 'address', headerName: 'Contract Address', flex: 1},
+        {field: 'owner', headerName: 'Organizer', flex: 2},
+        {field: 'address', headerName: 'Contract Address', flex: 2},
         {field: 'choices', headerName: 'Contract Choices', flex: 1, hide: true},
         {field: 'button', headerName: '', flex: 1,
          renderCell: (params) => {
@@ -57,8 +58,18 @@ function Events(props) {
     }, [account])
 
     useEffect(() => {
+        async function fetchEvents() {
+            const res = await axios.get('http://localhost:3001/getAllEvents', {crossDomain: true});
+            if (res.data.success){
+                setRows(res.data.msg.map((x) => {
+                    x.id = x.name + x.owner;
+                    return x;
+                }));
+            }
+            if (!initialized) setInitialized(true);
+        }
+
         fetchEvents();
-        setInitialized(true);
         const timer = setInterval(() => {
             fetchEvents()
         }, 3000);
