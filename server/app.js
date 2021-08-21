@@ -87,7 +87,7 @@ app.get('/findEvent', cors(), function(req, res){
     if (name) findCriteria.push({name: name});
     if (owner) findCriteria.push({owner: owner});
     if (address) findCriteria.push({address: address});
-    console.log(`GET /findEvent: name=${name} owner=${owner}`);
+    console.log(`GET /findEvent: name=${name} owner=${owner} address=${address}`);
     Events.find(
         {$and: findCriteria},
         (error, documents) => {
