@@ -5,3 +5,9 @@
     background-color: lightgrey;
     text-align: center;
 }
+
+#vote-img {
+    background-image: url('../images/vote.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}

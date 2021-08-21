@@ -1,0 +1,31 @@
+.create-event {
+
+}
+
+.create-form {
+    width: 360px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 60px 40px;
+    margin-top: 20px;
+    border: 16px solid;
+    border-top-width: 60px;
+    border-bottom-width: 60px;
+    border-radius: 36px
+}
+
+
+.create-form:before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 5px;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #666;
+    border-radius: 10px;
+}

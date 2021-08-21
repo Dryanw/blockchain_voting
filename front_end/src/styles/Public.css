@@ -5,3 +5,16 @@
     background-color: lightgrey;
     text-align: center;
 }
+
+
+#register-img {
+    background-image: url('../images/Register_to_Vote_Here.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#login-img {
+    background-image: url('../images/login.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
