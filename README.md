@@ -1,4 +1,4 @@
-# Voltage ![logo](./front_end/src/images/icon.png)
+# Voltage <img src="./front_end/src/images/icon.png" width="50"/>
 Voltage is a project aims to provide a better voting experience for both the organizers and the voters using the 
 Ethereum blockchain. 
 
